@@ -1,0 +1,48 @@
+# pro 环境
+
+docker run -d -p 8080:8080 \
+-v /wdc/docker/apollo/logs/configservice:/opt/logs/100003171 \
+-e spring_datasource_url=jdbc:mysql://192.168.3.116:3306/ApolloConfigDB?characterEncoding=utf8 \
+-e spring_datasource_username=root \
+-e spring_datasource_password=root \
+-e eureka.instance.ip-address=192.168.3.116 \
+--name apollo-configservice a5bcfc73dfb3
+
+
+docker run -d -p  8090:8090 \
+-v /wdc/docker/apollo/logs/adminservice:/opt/logs/100003172 \
+-e spring_datasource_url=jdbc:mysql://192.168.3.116:3306/ApolloConfigDB?characterEncoding=utf8 \
+-e spring_datasource_username=root \
+-e spring_datasource_password=root \
+-e eureka.instance.ip-address=192.168.3.116 \
+--name apollo-adminservice 3f6c327515aa
+
+docker run -d -p  8070:8070 \
+-v /wdc/docker/apollo/logs/portal:/opt/logs/100003173 \
+-e JAVA_OPTS=-Dpro_meta=http://192.168.3.116:8080 \
+-e spring_datasource_url=jdbc:mysql://192.168.3.116:3306/ApolloPortalDB?characterEncoding=utf8 \
+-e spring_datasource_username=root \
+-e spring_datasource_password=root \
+--name apollo-portal 98ea68c6ecc3
+
+
+
+
+# dev 环境
+
+docker run -d -p 8080:8080 \
+-v f:/opt/logs/configservice:/opt/logs/100003171 \
+-e spring_datasource_url=jdbc:mysql://192.168.3.113:3306/ApolloConfigDB?characterEncoding=utf8 \
+-e spring_datasource_username=root \
+-e spring_datasource_password=123456 \
+-e eureka.instance.ip-address=192.168.3.113 \
+--name apollo-configservice apollo-configservice:1.1.0
+
+
+docker run -d -p  8090:8090 \
+-v f:/opt/logs/adminservice:/opt/logs/100003172 \
+-e spring_datasource_url=jdbc:mysql://192.168.3.113:3306/ApolloConfigDB?characterEncoding=utf8 \
+-e spring_datasource_username=root \
+-e spring_datasource_password=123456 \
+-e eureka.instance.ip-address=192.168.3.113 \
+--name apollo-adminservice apollo-adminservice:1.1.0
